@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id ="myForm">
+        <input id="textInput" type="text">
+        <button type="submit">Submit</button>
+    </form>
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+ 	import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js"
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyB4T51PORKsk1YRLKf1agOENMW5w80NQko",
+    authDomain: "text-project-6c3e3.firebaseapp.com",
+    databaseURL: "https://text-project-6c3e3-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "text-project-6c3e3",
+    storageBucket: "text-project-6c3e3.firebasestorage.app",
+    messagingSenderId: "854172509038",
+    appId: "1:854172509038:web:935a11278251e6614dd77f"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const form = document.getElementById("myForm");
+    const input = document.getElementById("textInput");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault(); // prevent page reload
+      const value = input.value;
+      if (value) {
+        // Write to Firebase Realtime Database under "messages/"
+        set(ref(db, 'messages/' + Date.now()), {
+          text: value
+        })
+        .then(() => {
+          alert("Data written successfully!");
+          input.value = ""; // clear input
+        })
+        .catch((error) => {
+          console.error("Write failed:", error);
+        });
+      }
+    });
+</script>
+</body>
+</html>
