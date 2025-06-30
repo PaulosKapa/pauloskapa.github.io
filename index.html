@@ -5,6 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <script src="bundle.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -15,6 +23,30 @@
   <div id="messagesContainer"></div>
 
   <script type="module">
+    const AVAILABLE_POSTS = 3;
+    const AVAILABLE_LIKES = 10;
+    const EXPIRE_TIME = 10;
+    if (isNaN(getCookie("hello")) || getCookie("hello") == null || !getCookie("hello")) {
+      notification(`
+  <div style="font-family: 'Arial', sans-serif;">
+    <h3 style="color: #2c3e50;">
+      Hello! Welcome to the MessageBoard
+    </h3>
+      <span style="display: inline-block;  font-weight: bold;">Likes:</span>
+      You get <span style="color: #e74c3c; font-weight: bold;">${AVAILABLE_LIKES}</span> likes. 
+      After that you'll wait <span style="color: #e74c3c;">${EXPIRE_TIME} minutes</span>.
+    </p>
+    <p style="color: #34495e;">
+      <span style="display: inline-block;  font-weight: bold;">Posts:</span>
+      You get <span style="color: #2ecc71; font-weight: bold;">${AVAILABLE_POSTS}</span> posts. 
+      After that you'll wait <span style="color: #2ecc71;">${EXPIRE_TIME} minutes</span>.
+    </p>
+  </div>
+`);
+      setCookie("hello", 1, 100000000000000000000);
+    }
+    // output: I have ****, etc.
+
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
     import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-database.js"
@@ -39,42 +71,50 @@
     const messagesContainer = document.getElementById("messagesContainer");
     var lastPost = 0;
     var date;
-    var totalLikes = 0;
+
     form.addEventListener("submit", (e) => {
       e.preventDefault(); // prevent page reload
-      const value = input.value;
+
+      var value = input.value.trim();
+      value = filterEng.clean(filterGr.filter(value));
+
       if (value) {
-        
+        let readableTime;
         date = Date.now();
-          if (date - lastPost < 600000) {
-            alert("Wait 10 minutes between posts");
-            lastPost = date;
-            return;
+        if (getCookie("message") == AVAILABLE_POSTS) {
+
+          notification(`Your next post will be available at: ${getCookie("postExpires")}`, "warning");
+          return;
+        }
+        else {
+          let numOfPosts = getCookie("message")
+          console.log(parseInt(numOfPosts))
+          if (isNaN(numOfPosts)) {
+            numOfPosts = 0;
           }
-       
-          // Write to Firebase Realtime Database under "messages/"
-          set(ref(db, 'messages/' + date), {
-            text: value,
-            likes: 0
+          setCookie("message", parseInt(numOfPosts) + 1, EXPIRE_TIME);
+          if (getCookie("message") == AVAILABLE_POSTS) {
+            let d = new Date
+            let time = d.setTime(d.getTime() + (EXPIRE_TIME * 60 * 1000));
+            setCookie("postExpires", new Date(time).toLocaleTimeString(), EXPIRE_TIME);
+          }
+        }
+        // Write to Firebase Realtime Database under "messages/"
+        set(ref(db, 'messages/' + date), {
+          text: value,
+          likes: 0
+        })
+          .then(() => {
+            notification("Data written successfully!", "success");
+            input.value = ""; // clear input
           })
-            .then(() => {
-              alert("Data written successfully!");
-              input.value = ""; // clear input
-            })
-            .catch((error) => {
-              console.error("Write failed:", error);
-            });
+          .catch((error) => {
+            console.error("Write failed:", error);
+          });
 
-          lastPost = date;
-
-          
-
-        
+        lastPost = date;
       }
-      });
-
-  
-
+    });
 
     // Listen for real-time updates
     const messagesRef = ref(db, 'messages/');
@@ -112,15 +152,58 @@
     }
 
     function incrementLike(id, likes) {
-      totalLikes+=1;
-      if(totalLikes<3){
-      const updates = {};
-      updates['/messages/' + id + '/likes'] = likes += 1;
-      update(ref(db), updates);
-      return;
+      if (getCookie("likes") === "") {
+        setCookie("likes", AVAILABLE_LIKES, EXPIRE_TIME); // 10-minute expiry
+
       }
-      alert("No more likes left");
+
+      if (getCookie("likes") > 0) {
+        const updates = {};
+        updates['/messages/' + id + '/likes'] = likes += 1;
+        update(ref(db), updates);
+        setCookie("likes", getCookie("likes") - 1, EXPIRE_TIME);
+        if (getCookie("likes") == 0) {
+          let d = new Date
+          let time = d.setTime(d.getTime() + (EXPIRE_TIME * 60 * 1000));
+          setCookie("likesExpires", new Date(time).toLocaleTimeString(), 10);
+        }
+        return;
+      }
+
+      notification(`Next likes will be available at: ${getCookie("likesExpires")}`, "warning")
     }
+
+    function setCookie(cname, cvalue, expMins) {
+      const d = new Date();
+      d.setTime(d.getTime() + (expMins * 60 * 1000));
+
+      let expires = "expires=" + d.toUTCString();
+
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+    function getCookie(cname) {
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    function notification(titleName, iconName) {
+      return Swal.fire({
+        title: titleName,
+        icon: iconName
+      });
+    }
+
 
   </script>
 </body>
