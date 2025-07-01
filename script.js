@@ -20,7 +20,7 @@ if (isNaN(getCookie("hello")) || getCookie("hello") == null || !getCookie("hello
 `);
   setCookie("hello", 1, 1315490);
 }
-// output: I have ****, etc.
+
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
@@ -152,50 +152,6 @@ document.addEventListener("click", (e) => {
     dropdown.style.display = "none";
   }
 });
-
-
-
-// function displayMessages(messages) {
-//   messagesContainer.innerHTML = ''; // Clear previous messages
-
-//   if (!messages) {
-//     messagesContainer.innerHTML = '<p>No messages yet</p>';
-//     return;
-//   }
-
-//   // Convert messages object to array and sort by timestamp
-//   const messagesArray = Object.entries(messages).map(([key, value]) => ({
-//     id: key,
-//     ...value
-//   }))
-
-//   // Display each message
-//   messagesArray.forEach(message => {
-//     const messageElement = document.createElement('div');
-//     messageElement.innerHTML = `
-// <div class="card" style=" width: 18rem;height: 100%; margin: 15px;">
-//   <div class="card-body">
-//     <p class="card-text message-content" style="font-family: _Chillax_Variable; font-size:x-large;">${message.text}</p>
-//     <div class="d-flex align-items-center">
-//       <button class="btn" id="${message.id}">
-//         <svg class="icon" xmlns="heart.svg" width="20.503" height="20.625" viewBox="0 0 17.503 15.625">
-//           <path id="Fill"
-//             d="M8.752,15.625h0L1.383,8.162a4.824,4.824,0,0,1,0-6.762,4.679,4.679,0,0,1,6.674,0l.694.7.694-.7a4.678,4.678,0,0,1,6.675,0,4.825,4.825,0,0,1,0,6.762L8.752,15.624ZM4.72,1.25A3.442,3.442,0,0,0,2.277,2.275a3.562,3.562,0,0,0,0,5l6.475,6.556,6.475-6.556a3.563,3.563,0,0,0,0-5A3.443,3.443,0,0,0,12.786,1.25h-.01a3.415,3.415,0,0,0-2.443,1.038L8.752,3.9,7.164,2.275A3.442,3.442,0,0,0,4.72,1.25Z"
-//             transform="translate(0 0)"></path>
-//         </svg>
-//       </button>
-//       <span class="like-count"style="font-family: monospace,monospace;">${message.likes}</span>
-//     </div>
-//   </div>
-// </div>    
-//       `;
-//     messagesContainer.appendChild(messageElement);
-//     const button = document.getElementById(message.id);
-//     button.addEventListener('click', () => {
-//       incrementLike(message.id, message.likes || 0);
-//     });
-//   });
-// }
 function displayMessages(messages, sortType = "newest") {
   messagesContainer.innerHTML = ''; // Clear previous messages
 
@@ -306,7 +262,7 @@ function notification(titleName, iconName) {
     icon: iconName,
     toast: true,
     position: "top-end",
-    timer: 3000,
+    timer: 5000,
     timerProgressBar: true,
 
   });
