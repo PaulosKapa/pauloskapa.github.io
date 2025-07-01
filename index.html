@@ -43,7 +43,7 @@
     </p>
   </div>
 `);
-      setCookie("hello", 1, 100000000000000000000);
+      setCookie("hello", 1, 1315490);
     }
     // output: I have ****, etc.
 
@@ -200,7 +200,12 @@
     function notification(titleName, iconName) {
       return Swal.fire({
         title: titleName,
-        icon: iconName
+        icon: iconName,
+        toast: true,
+        position: "top-end",
+        timer: 3000,
+        timerProgressBar: true,
+
       });
     }
 
