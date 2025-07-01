@@ -15,6 +15,7 @@
     "eld": "^1.0.1",
     "fs": "^0.0.1-security",
     "greek-swearword-filter": "^1.0.2",
+    "greek-utils": "^1.3.0",
     "langdetect": "^0.2.1",
     "languagedetect": "^2.0.0",
     "leo-profanity": "^1.7.0",

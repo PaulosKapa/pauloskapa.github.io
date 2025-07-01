@@ -1,0 +1,247 @@
+  body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: #fffdfb;
+  }
+
+  .selected-option img {
+      width: 5em;
+      height: 5em;
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+      border: 2px solid transparent;
+  }
+
+  .image-select {
+      position: fixed;
+      top: 0%;
+      width: 5em;
+      cursor: pointer;
+      user-select: none;
+  }
+
+  .selected-option:hover img {
+      transform: scale(1.05);
+      border-color: #ccc;
+  }
+
+  .dropdown-options {
+      display: none;
+      position: absolute;
+      top: 1em;
+      left: 1em;
+      z-index: 1000;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      padding: 8px 0;
+      width: max-content;
+      min-width: 180px;
+      font-family: Arial, sans-serif;
+  }
+
+  .dropdown-options div {
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+  }
+
+  .dropdown-options div:hover {
+      background-color: #f0f0f0;
+  }
+
+
+  #messagesContainer {
+      /* position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); */
+      padding-bottom: 10%;
+
+      margin: auto;
+      width: 30%;
+  }
+
+  .char-counter {
+      position: absolute;
+      right: 10px;
+      bottom: -20px;
+      font-size: 0.8rem;
+      color: #666;
+  }
+
+  .input-group {
+      position: relative;
+      /* Needed for absolute positioning of counter */
+      margin-bottom: 25px;
+      /* Space for counter */
+  }
+
+  .char-counter.warning {
+      color: orange;
+  }
+
+  .char-counter.danger {
+      color: red;
+      font-weight: bold;
+  }
+
+
+  /* Modified from Uiverse.io */
+  .form-control {
+      position: fixed;
+      width: 80%;
+      display: flex;
+      align-items: center;
+      bottom: 0%;
+      left: 10%;
+  }
+
+  .input-group {
+      display: flex;
+      width: 100%;
+      position: relative;
+  }
+
+  .input-alt {
+      color: #353434;
+      font-size: 1.2rem;
+      background-color: transparent;
+      padding: 0.8em 1em;
+      border: none;
+      border-bottom: 1px solid #ddd;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      flex-grow: 1;
+      height: 100%;
+      /* Match button height */
+      box-sizing: border-box;
+  }
+
+  .input-border-alt {
+      position: absolute;
+      background: linear-gradient(90deg, #FF6464 0%, #FFBF59 50%, #47C9FF 100%);
+      height: 3px;
+      width: 0%;
+      bottom: 0;
+      left: 0;
+      transition: width 0.4s cubic-bezier(0.42, 0, 0.58, 1.00);
+      max-width: 100%;
+  }
+
+  .input-alt:focus {
+      outline: none;
+      border-bottom-color: transparent;
+  }
+
+  .input-alt:focus+.input-border-alt {
+      width: 100%;
+  }
+
+  /* Button styles - modified to match input height */
+  .sendbtn {
+      position: relative;
+      font-size: 17px;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0 2.5em;
+      /* Adjusted vertical padding */
+      margin-left: 10px;
+      height: calc(0.8em * 2 + 1.2rem);
+      /* Match input height */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 6em;
+      transition: all 0.2s;
+      border: none;
+      font-family: inherit;
+      font-weight: 500;
+      color: black;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      white-space: nowrap;
+  }
+
+  .sendbtn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .sendbtn:active {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .sendbtn::after {
+      content: "";
+      display: inline-block;
+      height: 100%;
+      width: 100%;
+      border-radius: 100px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      transition: all 0.4s;
+      background-color: #fff;
+  }
+
+  .sendbtn:hover::after {
+      transform: scaleX(1.4) scaleY(1.6);
+      opacity: 0;
+  }
+
+
+  /* From Uiverse.io by boryanakrasteva */
+  .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: none;
+      background-color: transparent;
+      position: relative;
+  }
+
+  .btn::after {
+
+      width: fit-content;
+      height: fit-content;
+      position: absolute;
+
+      transition: 0.2s linear;
+      top: 115%;
+  }
+
+  .icon {
+      width: 30px;
+      height: 30px;
+      transition: 0.2s linear;
+      color: red;
+  }
+
+  .icon path {
+      fill: red;
+      transition: 0.2s linear;
+  }
+
+  .btn:hover>.icon {
+      transform: scale(1.2);
+  }
+
+  .btn:hover>.icon path {
+      fill: rgb(177, 139, 189);
+  }
+
+  .btn:hover::after {
+      visibility: visible;
+      opacity: 1;
+      top: 105%;
+  }
