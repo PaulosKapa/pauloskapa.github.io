@@ -8,8 +8,8 @@
   }
 
   .selected-option img {
-      width: 5em;
-      height: 5em;
+      width: 3em;
+      height: 4em;
       border-radius: 8px;
       transition: transform 0.3s ease;
       border: 2px solid transparent;
@@ -18,7 +18,7 @@
   .image-select {
       position: fixed;
       top: 0%;
-      width: 5em;
+      width: 4em;
       cursor: pointer;
       user-select: none;
   }
@@ -31,8 +31,8 @@
   .dropdown-options {
       display: none;
       position: absolute;
-      top: 1em;
-      left: 1em;
+      top: 3em;
+      left: 0em;
       z-index: 1000;
       background: white;
       border-radius: 8px;
@@ -55,14 +55,11 @@
 
 
   #messagesContainer {
-      /* position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%); */
-      padding-bottom: 10%;
 
+      padding-bottom: 20%;
+        padding-right: 10%;
       margin: auto;
-      width: 30%;
+      width: 60%;
   }
 
   .char-counter {
@@ -140,60 +137,6 @@
       width: 100%;
   }
 
-  /* Button styles - modified to match input height */
-  .sendbtn {
-      position: relative;
-      font-size: 17px;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 0 2.5em;
-      /* Adjusted vertical padding */
-      margin-left: 10px;
-      height: calc(0.8em * 2 + 1.2rem);
-      /* Match input height */
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border-radius: 6em;
-      transition: all 0.2s;
-      border: none;
-      font-family: inherit;
-      font-weight: 500;
-      color: black;
-      background-color: white;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      white-space: nowrap;
-  }
-
-  .sendbtn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  }
-
-  .sendbtn:active {
-      transform: translateY(-1px);
-      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  }
-
-  .sendbtn::after {
-      content: "";
-      display: inline-block;
-      height: 100%;
-      width: 100%;
-      border-radius: 100px;
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      transition: all 0.4s;
-      background-color: #fff;
-  }
-
-  .sendbtn:hover::after {
-      transform: scaleX(1.4) scaleY(1.6);
-      opacity: 0;
-  }
 
 
   /* From Uiverse.io by boryanakrasteva */
